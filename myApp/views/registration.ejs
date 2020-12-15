@@ -20,6 +20,13 @@
             color: white;
             -webkit-text-stroke: 0.5px black;
         }
+        p {
+            position:relative;
+            left:600px;
+            top:50px;
+            color: white;
+            -webkit-text-stroke: 0.5px black; 
+        }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,11 +37,11 @@
 </head>
 
 <body>
-    <script>
+    <!-- <script>
         var x = '<%= err %>';
         if(x==1) alert('username already exists');
         if(x==2) alert('the password cannot be empty');
-    </script>
+    </script> -->
 
     <div class="container">
         <h1 name = "word">Registration</h1>
@@ -48,6 +55,9 @@
             <input type="submit" id="simple_click" class="btn btn-secondary" value="Register"> <br>
         </form>
     </div>
+    <p><%= err %></p>
 </body>
 
 </html>
+
+

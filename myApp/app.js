@@ -14,12 +14,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', function(req, res){
-  res.render('login',{err:0})
+  res.render('login',{err:""})
 });
 
 // login page
 app.get('/registration', function(req,res){
-res.render('registration' , {err:0});
+res.render('registration' , {err:""});
 });
 
 app.post('/',function(req, res){
@@ -44,12 +44,12 @@ app.post('/',function(req, res){
   }
   if(found==1)
   {
-    res.render('home',{err:0});
+    res.render('home',{err:""});
   }else if(found==0){
-    res.render('login', {err:1});
+    res.render('login', {err:"username does not exist"});
   }
   else{
-    res.render('login', {err:2});
+    res.render('login', {err:"password is incorrect"});
   }
   });
 
@@ -61,7 +61,7 @@ var name = req.body.username;
 var pass = req.body.password;
 var found=0;
 if(pass==""){
-  res.render('registration', {err:2});
+  res.render('registration', {err:"Please enter the password "});
   return;
 }
 for(var i=0;i<users.length;i++)
@@ -70,7 +70,7 @@ for(var i=0;i<users.length;i++)
   if(name==user.username)
     {
       found = 1;
-      res.render('registration', {err:1});
+      res.render('registration', {err:"username already exists"});
       return;
     }
 }
@@ -119,5 +119,4 @@ app.get('/sun', function(req,res){
 
 
 app.listen(3000);
-
 
