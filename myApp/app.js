@@ -23,7 +23,13 @@ res.render('registration' , {err:""});
 });
 
 app.post('/',function(req, res){
-  var users =JSON.parse(fs.readFileSync('users.json'));
+  var data=fs.readFileSync('users.json')
+  if(data.length==0)
+  {
+    var users=[];
+  }else{
+    var users =JSON.parse(data);
+  }
   var name = req.body.username;
   var pass = req.body.password;
   var found=0;
@@ -56,12 +62,21 @@ app.post('/',function(req, res){
 
 // register page
 app.post('/register',function(req, res){
-var users =JSON.parse(fs.readFileSync('users.json'));
+var data=fs.readFileSync('users.json');
+if(data.length==0)
+var users=[];
+else
+var users =JSON.parse(data);
 var name = req.body.username;
 var pass = req.body.password;
 var found=0;
+if(name=="")
+{
+  res.render('registration', {err:"Please enter a valid username "});
+  return;
+} 
 if(pass==""){
-  res.render('registration', {err:"Please enter the password "});
+  res.render('registration', {err:"Please enter a password "});
   return;
 }
 for(var i=0;i<users.length;i++)
