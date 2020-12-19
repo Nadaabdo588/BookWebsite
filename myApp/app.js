@@ -52,10 +52,10 @@ app.post('/',function(req, res){
   {
     res.render('home',{err:""});
   }else if(found==0){
-    res.render('login', {err:"username does not exist"});
+    res.render('login', {err:"Username does not exist"});
   }
   else{
-    res.render('login', {err:"password is incorrect"});
+    res.render('login', {err:"Password is incorrect"});
   }
   });
 
@@ -63,10 +63,11 @@ app.post('/',function(req, res){
 // register page
 app.post('/register',function(req, res){
 var data=fs.readFileSync('users.json');
-if(data.length==0)
-var users=[];
-else
-var users =JSON.parse(data);
+if(data.length==0){
+  var users=[];}
+else{
+  var users =JSON.parse(data);
+}
 var name = req.body.username;
 var pass = req.body.password;
 var found=0;
@@ -85,7 +86,7 @@ for(var i=0;i<users.length;i++)
   if(name==user.username)
     {
       found = 1;
-      res.render('registration', {err:"username already exists"});
+      res.render('registration', {err:"Username already exists"});
       return;
     }
 }
@@ -127,7 +128,11 @@ app.get('/sun', function(req,res){
   res.render('sun');
 });
 
+//read list
+app.get('/readlist',function(req,res){
+  res.render('readlist');
 
+});
 
 
 
