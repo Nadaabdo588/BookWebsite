@@ -59,7 +59,6 @@ app.post('/',function(req, res){
   }
   });
 
-
 // register page
 app.post('/register',function(req, res){
 var data=fs.readFileSync('users.json');
