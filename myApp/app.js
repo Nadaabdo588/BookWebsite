@@ -2,12 +2,16 @@ var express = require('express');
 var path = require('path');
 var logger = require('morgan');
 var fs= require('fs');
+const session = require('express-session');
 
 var app = express();
+app.use(session({secret:'illuminous',saveUninitialized:true, resave : true}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+const books = ['dune', 'flies','grapes','leaves','mockingbird','sun'];
+const booknames = ['Dune', 'Lord of the Flies', 'The Grapes of Wrath', 'Leaves of Grass', 'To Kill a Mockingbird', 'The Sun and Her Flowers'];
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -50,7 +54,9 @@ app.post('/',function(req, res){
   }
   if(found==1)
   {
-    res.render('home',{err:""});
+    var sess = req.session;
+    sess.username = name;
+    res.render('home',{err:"welcome "+sess.username});
   }else if(found==0){
     res.render('login', {err:"Username does not exist"});
   }
@@ -92,7 +98,9 @@ for(var i=0;i<users.length;i++)
 }
   users.push({username: name, password:pass});
   fs.writeFileSync('users.json',JSON.stringify(users));
-  res.render('home');
+  var sess = req.session;
+  sess.username = name;
+  res.render('home', {err: ''});
 
 });
 
@@ -132,6 +140,11 @@ app.get('/sun', function(req,res){
 app.get('/readlist',function(req,res){
   res.render('readlist');
 
+});
+
+//searching results
+app.post('/search',function(req, res){
+  res.render('searchresults', {books:books, names :booknames});
 });
 
 

@@ -13,6 +13,70 @@
             text-align: center;
             -webkit-text-stroke: 1px blue;
         }
+        .container1 {
+            position: fixed;
+            left: 50px;
+            top: 150px;
+            color: white;
+        }
+        .container2 {
+            position: fixed;
+            left: 300px;
+            top: 150px;
+            color: white;
+        }
+        .container3 {
+            position: fixed;
+            left: 550px;
+            top: 150px;
+            color: white;
+        }
+        .container4 {
+            position: fixed;
+            left: 800px;
+            top: 150px;
+            color: white;
+        }
+        .container5 {
+            position: fixed;
+            left: 1050px;
+            top: 150px;
+            color: white;
+        }
+        .container6 {
+            position: fixed;
+            left: 1300px;
+            top: 150px;
+            color: white;
+        }
+        #label1 {
+            position: relative;
+            right: -15px;
+        }
+        #label2 {
+            position: relative;
+            right: 18px;
+        }
+        #label3 {
+            position: relative;
+            right: 51px;
+        }
+        #label4 {
+            position: relative;
+            right: 84px;
+        }
+        #label5 {
+            position: relative;
+            right: 117px;
+        }
+        #label6 {
+            position: relative;
+            right: 150px;
+        }
+        #leaves, #sun, #flies, #grapes,#dune, #mockingbird {
+            position: relative;
+            left: 50px;
+        }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,5 +102,39 @@
             </form>
         </div>
     </nav>
+
+
+    <script>
+        var books = '<%= books %>';
+        var names = '<%= names %>';
+        books = books.split(',');
+        names = names.split(',');
+        for(var i=0;i<books.length;i++)
+        {
+            var div = document.createElement("div");
+            div.className= 'container'+(i+1);
+            var img = document.createElement("img");
+            img.src="/"+books[i]+".jpg";
+            img.height = 300;
+            img.width = 193;
+            var linebreak1 = document.createElement('br');
+            var linebreak2 = document.createElement('br');
+            // var label = document.createElement('label');
+            // label.id = 'label'+(i+1);
+            // label.className= "ml-4 my-2";
+            // label.innerHTML = names[i];
+            var button = document.createElement('button');
+            button.setAttribute('onclick', "location.href = '/"+books[i]+"';");
+            button.id = books[i];
+            button.className = "btn btn-secondary ml-3";
+            button.innerHTML = ' View ';
+            div.appendChild(img);
+            div.appendChild(linebreak1);
+            // div.append(label);
+            div.append(linebreak2);
+            div.append(button);
+            document.body.appendChild(div);
+        }
+    </script>
 </body>
 </html>
