@@ -106,9 +106,9 @@
 
     <script>
         var books = '<%= books %>';
-        var names = '<%= names %>';
-        books = books.split(',');
-        names = names.split(',');
+        if(books.length>0)
+        {
+            books = books.split(',');
         for(var i=0;i<books.length;i++)
         {
             var div = document.createElement("div");
@@ -119,10 +119,6 @@
             img.width = 193;
             var linebreak1 = document.createElement('br');
             var linebreak2 = document.createElement('br');
-            // var label = document.createElement('label');
-            // label.id = 'label'+(i+1);
-            // label.className= "ml-4 my-2";
-            // label.innerHTML = names[i];
             var button = document.createElement('button');
             button.setAttribute('onclick', "location.href = '/"+books[i]+"';");
             button.id = books[i];
@@ -130,10 +126,10 @@
             button.innerHTML = ' View ';
             div.appendChild(img);
             div.appendChild(linebreak1);
-            // div.append(label);
             div.append(linebreak2);
             div.append(button);
             document.body.appendChild(div);
+        }
         }
     </script>
 </body>

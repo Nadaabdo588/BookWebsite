@@ -3,6 +3,9 @@ var path = require('path');
 var logger = require('morgan');
 var fs= require('fs');
 const session = require('express-session');
+const { request } = require('http');
+const { response } = require('express');
+const { json } = require('body-parser');
 
 var app = express();
 app.use(session({secret:'illuminous',saveUninitialized:true, resave : true}));
@@ -11,7 +14,7 @@ app.use(session({secret:'illuminous',saveUninitialized:true, resave : true}));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 const books = ['dune', 'flies','grapes','leaves','mockingbird','sun'];
-const booknames = ['Dune', 'Lord of the Flies', 'The Grapes of Wrath', 'Leaves of Grass', 'To Kill a Mockingbird', 'The Sun and Her Flowers'];
+const booknames = ['dune', 'lord of the flies', 'the grapes of wrath', 'leaves of grass', 'to kill a mockingbird', 'the sun and her flowers'];
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -95,6 +98,14 @@ for(var i=0;i<users.length;i++)
       return;
     }
 }
+  var data2 =fs.readFileSync('readList.json');
+  if(data2.length==0)
+    var readList = [];
+  else
+    var readList = JSON.parse(data2);
+  readList.push({username: name, books:[]});
+  fs.writeFileSync('readList.json',JSON.stringify(readList));
+  
   users.push({username: name, password:pass});
   fs.writeFileSync('users.json',JSON.stringify(users));
   var sess = req.session;
@@ -137,18 +148,90 @@ app.get('/sun', function(req,res){
 
 //read list
 app.get('/readlist',function(req,res){
-  res.render('readlist');
+  var data = fs.readFileSync('readList.json');
+  if(data.length==0)
+  {
+    var readList=[];
+  }else{
+    var readList =JSON.parse(data);
+  }
+  for(var i =0;i<readList.length;i++)
+  {
+    var sess = req.session;
+    var Uname = sess.username;
+    if(readList[i].username==Uname)
+      res.render('readlist',{books:readList[i].books});
+  }
 
 });
 
 //searching results
 app.post('/search',function(req, res){
-  res.render('searchresults', {books:books, names :booknames});
+  var ser = req.body.Search;
+  ser = ser.toLowerCase();
+  var b = [];
+  for(var i=0 ;i<booknames.length;i++)
+  {
+    if(booknames[i].includes(ser))
+      b.push(books[i]);
+  }
+  res.render('searchresults', {books:b});
+  
 });
 
 
+app.post('/dune',function(req, res){
+  addToReadList('dune',req);
+});
 
-
+app.post('/flies',function(req, res){
+  addToReadList('flies',req);
+});
+app.post('/grapes',function(req, res){
+  addToReadList('grapes',req);
+});
+app.post('/leaves',function(req, res){
+  addToReadList('leaves',req);
+});
+app.post('/mockingbird',function(req, res){
+  addToReadList('mockingbird',req);
+});
+app.post('/sun',function(req, res){
+  addToReadList('sun',req);
+});
+function addToReadList (book,req,res){
+  var data = fs.readFileSync('readList.json');
+  if(data.length==0)
+  {
+    var readList=[];
+  }else{
+    var readList =JSON.parse(data);
+  }
+  for(var i =0;i<readList.length;i++)
+  {
+    var sess = req.session;
+    var Uname = sess.username;
+    if(readList[i].username==Uname)
+      {
+        var rl = readList[i].books;
+        var found =0;
+        for(var j=0;j<rl.length;j++)
+        {
+          if(rl[j]==book)
+            {
+              found=1;
+              break;
+            }
+        }
+        if(!found)
+        {
+          readList[i].books.push(book);
+        }
+      }
+     
+  }
+  fs.writeFileSync('readList.json',JSON.stringify(readList));
+}
 
 app.listen(3000);
 
