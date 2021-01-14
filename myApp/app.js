@@ -243,10 +243,10 @@ function addToReadList (book,req,res){
   
 }
 
-// if(process.env.PORT){
-//   app.listen(process.env.PORT,function(){console.log('Server started')});
-//   }
-//   else{
+if(process.env.PORT){
+  app.listen(process.env.PORT,function(){console.log('Server started')});
+  }
+  else{
   app.listen(3000,function(){console.log('Server started on port 3000')});
- // }
+ }
   
