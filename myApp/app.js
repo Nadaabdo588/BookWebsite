@@ -128,22 +128,22 @@ app.get('/fiction', function(req,res){
 
 // books
 app.get('/dune', function(req,res){
-  res.render('dune');
+  res.render('dune',{err:""});
 });
 app.get('/flies', function(req,res){
-  res.render('flies');
+  res.render('flies',{err:""});
 });
 app.get('/grapes', function(req,res){
-  res.render('grapes');
+  res.render('grapes',{err:""});
 });
 app.get('/leaves', function(req,res){
-  res.render('leaves');
+  res.render('leaves',{err:""});
 });
 app.get('/mockingbird', function(req,res){
-  res.render('mockingbird');
+  res.render('mockingbird',{err:""});
 });
 app.get('/sun', function(req,res){
-  res.render('sun');
+  res.render('sun',{err:""});
 });
 
 //read list
@@ -181,23 +181,23 @@ app.post('/search',function(req, res){
 
 
 app.post('/dune',function(req, res){
-  addToReadList('dune',req);
+  addToReadList('dune',req,res);
 });
 
 app.post('/flies',function(req, res){
-  addToReadList('flies',req);
+  addToReadList('flies',req,res);
 });
 app.post('/grapes',function(req, res){
-  addToReadList('grapes',req);
+  addToReadList('grapes',req,res);
 });
 app.post('/leaves',function(req, res){
-  addToReadList('leaves',req);
+  addToReadList('leaves',req,res);
 });
 app.post('/mockingbird',function(req, res){
-  addToReadList('mockingbird',req);
+  addToReadList('mockingbird',req,res);
 });
 app.post('/sun',function(req, res){
-  addToReadList('sun',req);
+  addToReadList('sun',req,res);
 });
 function addToReadList (book,req,res){
   var data = fs.readFileSync('readList.json');
@@ -211,6 +211,8 @@ function addToReadList (book,req,res){
   {
     var sess = req.session;
     var Uname = sess.username;
+    var found=0;
+    var addbook=0;
     if(readList[i].username==Uname)
       {
         var rl = readList[i].books;
@@ -226,16 +228,25 @@ function addToReadList (book,req,res){
         if(!found)
         {
           readList[i].books.push(book);
+          addbook=1;
         }
       }
      
   }
   fs.writeFileSync('readList.json',JSON.stringify(readList));
+  if(addbook)
+  {
+    res.render(book,{err:"Book is added successfully"});
+  }else{
+    res.render(book,{err:"Book already exists in your list"});
+  }
+  
 }
 
-if(process.env.PORT){
-  app.listen(process.env.PORT,function(){console.log('Server started')});
-  }
-  else{
+// if(process.env.PORT){
+//   app.listen(process.env.PORT,function(){console.log('Server started')});
+//   }
+//   else{
   app.listen(3000,function(){console.log('Server started on port 3000')});
-  }
+ // }
+  
