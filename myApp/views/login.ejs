@@ -18,6 +18,13 @@
             top:50px;
             color: white;
         }
+        p {
+            position:relative;
+            left:600px;
+            top:50px;
+            color: white;
+            -webkit-text-stroke: 0.1px black; 
+        }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,12 +35,7 @@
 </head>
 
 <body>
-    <script>
-        var x = '<%= err %>';
-        if(x==1){ alert('username does not exist');}
-        if(x==2){alert('password is incorrect');}    
     
-    </script>
     <div class="container">
         <h1>Welcome</h1>
     </div>
@@ -48,7 +50,9 @@
             <input type="submit" value="Login">
         </form>
         <br>
-        <a href="registration">I dont have an account</a>
+        <a href="registration">I don't have an account</a>
     </div>
+    <p><b><%= err %></b></p>
+
 </body>
 </html>

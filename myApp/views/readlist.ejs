@@ -21,6 +21,83 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
+<style>
+    body {
+        background-image: url("background3.jpg");
+        background-repeat: no-repeat;
+        background-size: 100%;
+    }
+
+    h1 {
+        color: white;
+        text-align: center;
+        -webkit-text-stroke: 1px blue;
+    }
+    .container1 {
+        position: fixed;
+        left: 50px;
+        top: 150px;
+        color: white;
+    }
+    .container2 {
+        position: fixed;
+        left: 300px;
+        top: 150px;
+        color: white;
+    }
+    .container3 {
+        position: fixed;
+        left: 550px;
+        top: 150px;
+        color: white;
+    }
+    .container4 {
+        position: fixed;
+        left: 800px;
+        top: 150px;
+        color: white;
+    }
+    .container5 {
+        position: fixed;
+        left: 1050px;
+        top: 150px;
+        color: white;
+    }
+    .container6 {
+        position: fixed;
+        left: 1300px;
+        top: 150px;
+        color: white;
+    }
+    #label1 {
+        position: relative;
+        right: -15px;
+    }
+    #label2 {
+        position: relative;
+        right: 18px;
+    }
+    #label3 {
+        position: relative;
+        right: 51px;
+    }
+    #label4 {
+        position: relative;
+        right: 84px;
+    }
+    #label5 {
+        position: relative;
+        right: 117px;
+    }
+    #label6 {
+        position: relative;
+        right: 150px;
+    }
+    #leaves, #sun, #flies, #grapes,#dune, #mockingbird {
+        position: relative;
+        left: 50px;
+    }
+</style>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2">
         <a class="navbar-brand" style="color: rgb(191, 255, 161)">Want to Read List</a>
@@ -38,5 +115,34 @@
             </form>
         </div>
     </nav>
+    <script>
+        var books = '<%= books %>';
+        if(books.length>0)
+        {
+            books = books.split(',');
+        for(var i=0;i<books.length;i++)
+        {
+            var div = document.createElement("div");
+            div.className= 'container'+(i+1);
+            var img = document.createElement("img");
+            img.src="/"+books[i]+".jpg";
+            img.height = 300;
+            img.width = 193;
+            var linebreak1 = document.createElement('br');
+            var linebreak2 = document.createElement('br');
+            var button = document.createElement('button');
+            button.setAttribute('onclick', "location.href = '/"+books[i]+"';");
+            button.id = books[i];
+            button.className = "btn btn-secondary ml-3";
+            button.innerHTML = ' View ';
+            div.appendChild(img);
+            div.appendChild(linebreak1);
+            div.append(linebreak2);
+            div.append(button);
+            document.body.appendChild(div);
+        }
+        }
+        
+    </script>
 </body>
 </html>
